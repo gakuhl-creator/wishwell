@@ -29,8 +29,10 @@ jobs:
           app_location: "public"         # Adjust if your frontend lives elsewhere
           api_location: "api"
           output_location: "dist"        # Or "" if not building (like plain HTML/CSS)
+          deployment_action: upload
         env:
           ACS_CONNECTION_STRING: ${{ secrets.ACS_CONNECTION_STRING }}
           ACS_PHONE_NUMBER: ${{ secrets.ACS_PHONE_NUMBER }}
           AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
           RECIPIENT_PHONE_NUMBER: ${{ secrets.RECIPIENT_PHONE_NUMBER }}
+          
