@@ -1,1 +1,10 @@
 node_modules/
+local.settings.json
+.vscode/
+.funcignore
+__blobstorage__/
+__azurite_db_blob__.json
+__azurite_db_blob_extent__.json
+__azurite_db_queue__.json
+__azurite_db_queue_extent__.json
+__azurite_db_table__.json
