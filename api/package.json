@@ -1,5 +1,10 @@
 {
     "name": "wishwell-api",
     "version": "1.0.0",
-    "dependencies": {}
+    "type": "commonjs",
+    "dependencies": {
+        "@azure/data-tables": "^13.1.0",
+        "@azure/communication-sms": "^1.1.1",
+        "uuid": "^9.0.0"
+    }
 }
