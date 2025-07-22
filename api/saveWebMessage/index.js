@@ -3,9 +3,17 @@ const { TableClient } = require("@azure/data-tables");
 const { v4: uuidv4 } = require("uuid");
 const { relayMessage } = require("../shared/relayMessage");
 
-const messagesTable = TableClient.fromConnectionString(process.env.AZURE_STORAGE_CONNECTION_STRING, "messages");
-
 module.exports = async function (context, req) {
+  const connectionString = process.env.AZURE_STORAGE_CONNECTION_STRING;
+  if (!connectionString) {
+    context.res = {
+      status: 500,
+      body: "Storage connection string is not configured.",
+    };
+    return;
+  }
+
+  const messagesTable = TableClient.fromConnectionString(connectionString, "messages");
   const ip = (req.headers["x-forwarded-for"] || "unknown").split(",")[0].trim();
   const { name, message } = req.body;
 
@@ -28,7 +36,8 @@ module.exports = async function (context, req) {
     name,
     message,
     via: "web",
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    ip
   };
 
   try {
@@ -50,6 +59,6 @@ module.exports = async function (context, req) {
 
   context.res = {
     status: 200,
-    body: "Message saved from web."
+    body: { message: "Message saved from web." }
   };
 };

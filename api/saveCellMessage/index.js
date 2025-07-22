@@ -2,16 +2,18 @@ const { TableClient } = require("@azure/data-tables");
 const { v4: uuidv4 } = require("uuid");
 const { relayMessage } = require("../shared/relayMessage");
 
-const ratelimitTable = TableClient.fromConnectionString(
-  process.env.AZURE_STORAGE_CONNECTION_STRING,
-  "ratelimits"
-);
-const messagesTable = TableClient.fromConnectionString(
-  process.env.AZURE_STORAGE_CONNECTION_STRING,
-  "messages"
-);
-
 module.exports = async function (context, req) {
+  const connectionString = process.env.AZURE_STORAGE_CONNECTION_STRING;
+  if (!connectionString) {
+    context.res = {
+      status: 500,
+      body: "Storage connection string not configured.",
+    };
+    return;
+  }
+
+  const ratelimitTable = TableClient.fromConnectionString(connectionString, "ratelimits");
+  const messagesTable = TableClient.fromConnectionString(connectionString, "messages");
   const ip = (req.headers["x-forwarded-for"] || "unknown").split(",")[0].trim();
   const now = Date.now();
   // 1 text per minute per person. Bills bills bills am I right?
@@ -99,6 +101,6 @@ module.exports = async function (context, req) {
 
   context.res = {
     status: 200,
-    body: "Message saved from cell."
+    body: { message: "Message saved from cell." }
   };
 };
