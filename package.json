@@ -1,0 +1,26 @@
+{
+  "name": "wishwell",
+  "version": "1.0.0",
+  "description": "Opensource project enabling friendly people to let friends wish others well",
+  "scripts": {
+    "build": "parcel build public/index.html --dist-dir dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gakuhl-creator/wishwell.git"
+  },
+  "keywords": [
+    "Friendly",
+    "wishwell",
+    "good"
+  ],
+  "author": "Guillermo Andrew Kuhl",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gakuhl-creator/wishwell/issues"
+  },
+  "homepage": "https://github.com/gakuhl-creator/wishwell#readme",
+  "devDependencies": {
+    "parcel": "^2.15.4"
+  }
+}
