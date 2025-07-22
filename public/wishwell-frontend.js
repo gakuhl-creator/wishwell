@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     try {
-      const res = await fetch("../api/saveWebMessage", {
+      const res = await fetch("/api/saveWebMessage", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, message }),
@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function fetchMessages() {
     try {
-      const res = await fetch("../api/getMessage");
+      const res = await fetch("/api/getMessage");
       const messages = await res.json();
 
       messageList.innerHTML = "";
