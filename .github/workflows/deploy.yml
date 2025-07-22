@@ -3,7 +3,7 @@ name: Azure Static Web Apps CI/CD
 on:
   push:
     branches:
-      - main  # or your primary branch
+      - main  # change if your default branch is different
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
@@ -22,3 +22,4 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_GREEN_POND_09B8D281E }}
           app_location: "public"
+          api_location: "api"
