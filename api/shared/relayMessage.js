@@ -16,6 +16,10 @@ async function relayMessage(name, message) {
   const smsClient = new AzureCommunicationSmsClient(smsConnectionString);
   const body = `💌 Wish from ${name}:\n${message}`;
 
+  console.log("relay message from: ", senderPhoneNumber)
+  console.log("relay message to: ", recipientPhoneNumber)
+  console.log("relay message body: ", body)
+
   const result = await smsClient.send({
     from: senderPhoneNumber,
     to: [recipientPhoneNumber],
