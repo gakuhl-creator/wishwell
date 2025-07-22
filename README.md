@@ -78,7 +78,7 @@ See wishwell_deployment_guide.md for more info.
 ## 📁 File Structure
 
 ```
-wishwell_api/
+wishwell/
 ├── .github/
 │   └── workflows/
 │       └── deploy.yml
