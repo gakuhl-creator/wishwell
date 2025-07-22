@@ -20,6 +20,7 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "public"         # root folder for your frontend (e.g., Next.js or static HTML)
+          output_location: "public"
           api_location: "api"       # folder where your Azure Functions live
           environment_variables: |
             AZURE_CLIENT_ID=${{ secrets.AZURE_CLIENT_ID }}
