@@ -42,7 +42,17 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Set Runtime Environment Variables in Static Web App
-        run: az staticwebapp appsettings set --name ${{ secrets.STATIC_WEB_APP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --setting-names ACS_CONNECTION_STRING=${{ secrets.ACS_CONNECTION_STRING }} ACS_PHONE_NUMBER=${{ secrets.ACS_PHONE_NUMBER }} AZURE_STORAGE_CONNECTION_STRING=${{ secrets.AZURE_STORAGE_CONNECTION_STRING }} RECIPIENT_PHONE_NUMBER=${{ secrets.RECIPIENT_PHONE_NUMBER }}
+        run: |
+          ACS_CONN="${{ secrets.ACS_CONNECTION_STRING }}"
+          ACS_PHONE="${{ secrets.ACS_PHONE_NUMBER }}"
+          STORAGE_CONN="${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
+          RECIPIENT="${{ secrets.RECIPIENT_PHONE_NUMBER }}"
 
-
-
+          az staticwebapp appsettings set \
+            --name ${{ secrets.STATIC_WEB_APP_NAME }} \
+            --resource-group ${{ secrets.RESOURCE_GROUP }} \
+            --setting-names \
+              ACS_CONNECTION_STRING=$ACS_CONN \
+              ACS_PHONE_NUMBER=$ACS_PHONE \
+              AZURE_STORAGE_CONNECTION_STRING=$STORAGE_CONN \
+              RECIPIENT_PHONE_NUMBER=$RECIPIENT
