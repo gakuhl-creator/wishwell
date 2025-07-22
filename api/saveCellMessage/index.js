@@ -3,6 +3,19 @@ const { v4: uuidv4 } = require("uuid");
 const { relayMessage } = require("../shared/relayMessage");
 
 module.exports = async function (context, req) {
+  // 🧩 Handle Event Grid subscription validation handshake
+  if (req.headers && req.headers.aeg_event_type === "SubscriptionValidation") {
+    const validationCode = req.body?.data?.validationCode;
+    context.log("Event Grid subscription validation event received:", validationCode);
+
+    context.res = {
+      status: 200,
+      body: {
+        validationResponse: validationCode,
+      },
+    };
+    return;
+  }
   const connectionString = process.env.AZURE_STORAGE_CONNECTION_STRING;
   if (!connectionString) {
     context.res = {
