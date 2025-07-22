@@ -15,7 +15,7 @@ module.exports = async function (context, req) {
 
   const messagesTable = TableClient.fromConnectionString(connectionString, "messages");
   const ip = (req.headers["x-forwarded-for"] || "unknown").split(",")[0].trim();
-  const { name, message } = req.body;
+  const { name = "", message = "" } = req.body || {};
 
   if (!name || name.length > 100) {
     context.res = {
