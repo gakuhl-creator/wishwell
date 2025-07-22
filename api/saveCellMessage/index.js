@@ -4,9 +4,12 @@ const { relayMessage } = require("../shared/relayMessage");
 
 module.exports = async function (context, req) {
   // 🧩 Handle Event Grid subscription validation handshake
-  if (req.headers && req.headers.aeg_event_type === "SubscriptionValidation") {
-    const validationCode = req.body?.data?.validationCode;
-    context.log("Event Grid subscription validation event received:", validationCode);
+  if (
+    req.body &&
+    req.body.eventType === "Microsoft.EventGrid.SubscriptionValidationEvent"
+  ) {
+    const validationCode = req.body.data.validationCode;
+    context.log("EventGrid validation code:", validationCode);
 
     context.res = {
       status: 200,
