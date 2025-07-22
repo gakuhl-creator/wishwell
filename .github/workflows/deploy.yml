@@ -3,7 +3,7 @@ name: Azure Static Web Apps CI/CD
 on:
   push:
     branches:
-      - main
+      - main  # or your deployment branch
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
@@ -13,34 +13,24 @@ jobs:
   build_and_deploy_job:
     runs-on: ubuntu-latest
     name: Build and Deploy Job
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy.outputs.azure_static_web_apps_api_url }}
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build frontend with Parcel
-        run: npm run build
-
-      - name: 🔍 List project files for debugging
-        run: |
-          echo "📁 Current directory structure:"
-          ls -R
-          echo ""
-          echo "📁 api folder contents:"
-          ls -R api || echo "api folder NOT found!"
-
-      - name: 🚀 Deploy to Azure Static Web Apps
+      - name: Build and Deploy with Azure Static Web Apps
+        id: deploy
         uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_GREEN_POND_09B8D281E }}
-          app_location: dist
-          api_location: api
-          deployment_action: upload
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          app_location: "public"         # Adjust if your frontend lives elsewhere
+          api_location: "api"
+          output_location: "dist"        # Or "" if not building (like plain HTML/CSS)
+        env:
+          ACS_CONNECTION_STRING: ${{ secrets.ACS_CONNECTION_STRING }}
+          ACS_PHONE_NUMBER: ${{ secrets.ACS_PHONE_NUMBER }}
+          AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+          RECIPIENT_PHONE_NUMBER: ${{ secrets.RECIPIENT_PHONE_NUMBER }}
