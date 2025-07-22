@@ -2,7 +2,7 @@ const { TableClient } = require("@azure/data-tables");
 
 module.exports = async function (context, req) {
   const connectionString = process.env.AZURE_STORAGE_CONNECTION_STRING;
-  const tableClient = TableClient.fromConnectionString(connectionString, "WishMessages");
+  const tableClient = TableClient.fromConnectionString(connectionString, "messages");
 
   const messages = [];
   const entities = tableClient.listEntities();

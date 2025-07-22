@@ -1,0 +1,51 @@
+name: Provision WishWell Infrastructure
+
+on:
+  workflow_dispatch:
+
+jobs:
+  provision:
+    runs-on: ubuntu-latest
+    name: Provision Azure Resources
+
+    steps:
+      - name: Azure Login with OIDC
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Create Resource Group
+        run: |
+          az group create --name wishwell-rg --location westus2
+
+      - name: Create Static Web App
+        run: |
+          az staticwebapp create \
+            --name wishwell-swa \
+            --resource-group wishwell-rg \
+            --source https://github.com/${{ github.repository }} \
+            --location westus2 \
+            --branch main \
+            --login-with-github
+
+      - name: Create Communication Services
+        run: |
+          az communication create \
+            --name wishwell-acs \
+            --resource-group wishwell-rg \
+            --location westus2
+
+      - name: Create Storage Account and Table
+        run: |
+          az storage account create \
+            --name wishwellstorage \
+            --resource-group wishwell-rg \
+            --location westus2 \
+            --sku Standard_LRS \
+            --kind StorageV2
+
+          az storage table create \
+            --account-name wishwellstorage \
+            --name messages

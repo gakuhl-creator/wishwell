@@ -1,0 +1,31 @@
+name: Deploy to Azure Static Web Apps
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Build and deploy to Azure Static Web Apps
+        uses: azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+          app_location: "public"         # root folder for your frontend (e.g., Next.js or static HTML)
+          api_location: "api"       # folder where your Azure Functions live
+          environment_variables: |
+            AZURE_CLIENT_ID=${{ secrets.AZURE_CLIENT_ID }}
+            AZURE_TENANT_ID=${{ secrets.AZURE_TENANT_ID }}
+            AZURE_SUBSCRIPTION_ID=${{ secrets.AZURE_SUBSCRIPTION_ID }}
+            ACS_CONNECTION_STRING=${{ secrets.ACS_CONNECTION_STRING }}
+            ACS_PHONE_NUMBER=${{ secrets.ACS_PHONE_NUMBER }}
+            AZURE_STORAGE_CONNECTION_STRING=${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+            RECIPIENT_PHONE_NUMBER=${{secrets.RECIPIENT_PHONE_NUMBER}}

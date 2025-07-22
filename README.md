@@ -45,11 +45,17 @@ WishWell is a lightweight Azure-based application that enables people to send su
 
 Set these in your GitHub repo's **Settings → Secrets and variables → Actions**:
 
-| Secret Name                    | Description                          |
-|--------------------------------|--------------------------------------|
-| `AZURE_STORAGE_CONNECTION_STRING` | Connection string to your Azure Table Storage |
-| `ACS_CONNECTION_STRING`          | Azure Communication Services conn string      |
-| `ACS_PHONE_NUMBER`               | Your registered ACS phone number              |
+See wishwell_deployment_guide.md for more info.
+
+| Secret Name                       | Description                                    |
+|-----------------------------------|------------------------------------------------|
+| `AZURE_STORAGE_CONNECTION_STRING` | Connection string to your Azure Table Storage  |
+| `ACS_CONNECTION_STRING`           | Azure Communication Services conn string       |
+| `ACS_PHONE_NUMBER`                | Your registered ACS phone number               |
+| `AZURE_CLIENT_ID`                 | Azure secret                                   |
+| `AZURE_TENANT_ID`                 | Azure secret                                   |
+| `AZURE_SUBSCRIPTION_ID`           | Azure secret                                   | 
+| `RECIPIENT_PHONE_NUMBER`          | The phone number of the lucky recipient        | 
 
 ---
 
@@ -73,14 +79,27 @@ Set these in your GitHub repo's **Settings → Secrets and variables → Actions
 
 ```
 wishwell_api/
-├── saveWebMessage/
-│   └── index.js
-├── saveCellMessage/
-│   └── index.js
-├── getMessage/
-│   └── index.js
-├── shared/
-│   └── relayMessage.js
+├── .github/
+│   └── workflows/
+│       └── deploy.yml
+│       └── infra.yml
+├── api/
+|   └── saveWebMessage/
+│       └── index.js
+|   └── saveCellMessage/
+│       └── index.js
+|   └── getMessage/
+│       └── index.js
+|   └── shared/
+│       └── relayMessage.js
+├── public/
+│   └── config.json
+│   └── index.html
+│   └── styles.css
+│   └── wishwell-frontend.js
+├── README.md                     # You are here
+├── wishwell_deployment_guide.md  # Important instructions here
+├── staticwebapp.config.json
 ```
 
 ---
@@ -97,42 +116,6 @@ Run the API locally:
 cd wishwell_api
 func start
 ```
-
----
-
-## 🧭 ACS Setup Instructions
-
-### 🔐 Step 1: Get Your `ACS_CONNECTION_STRING`
-
-1. Go to the [Azure Portal](https://portal.azure.com/#create/Microsoft.CommunicationServices) and search for **"Communication Services"**
-2. Click **Create** and fill out:
-   - **Subscription**: your Azure subscription
-   - **Resource Group**: create or select one
-   - **Name**: e.g., `wishwell-acs`
-   - **Region**: e.g., `East US` or `West US 2`
-3. After deployment, go to the **resource overview**
-4. In the left menu, click **"Keys and Endpoint"**
-5. Copy the **Connection String** and add it as a GitHub Secret:
-   - Name: `ACS_CONNECTION_STRING`
-
----
-
-### ☎️ Step 2: Get Your `ACS_PHONE_NUMBER`
-
-1. In your Communication Services resource, click **"Phone Numbers"** in the left sidebar
-2. Click **“Get a phone number”**
-3. Choose the following:
-   - **Region**: United States
-   - **Type**: Long code
-   - **Capabilities**: Ensure **SMS (send/receive)** is enabled
-4. Click **"Search"**, then select and provision the number
-5. Once provisioned, copy it in E.164 format (e.g., `+15551234567`)
-6. Add this to your GitHub secrets as:
-   - Name: `ACS_PHONE_NUMBER`
-
-> 💡 Azure charges ~$1/month for long code numbers, and ~$0.0075 per SMS.
-
-📥 [Click here to view screenshots that walk through the above steps.](https://wishwell-assets.s3.us-west-2.amazonaws.com/azure-acs-screenshots.zip)
 
 ---
 
