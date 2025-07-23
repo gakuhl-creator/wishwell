@@ -4,21 +4,25 @@ const { relayMessage } = require("../shared/relayMessage");
 
 module.exports = async function (context, req) {
   // 🧩 Handle Event Grid subscription validation handshake
-  if (
-    req.body &&
-    req.body.eventType === "Microsoft.EventGrid.SubscriptionValidationEvent"
-  ) {
-    const validationCode = req.body.data.validationCode;
-    context.log("EventGrid validation code:", validationCode);
+  const events = req.body;
+  if (Array.isArray(events)) {
+    const validationEvent = events.find(e =>
+      e.eventType === "Microsoft.EventGrid.SubscriptionValidationEvent"
+    );
 
-    context.res = {
-      status: 200,
-      body: {
-        validationResponse: validationCode,
-      },
-    };
-    return;
+    if (validationEvent) {
+      const validationCode = validationEvent.data.validationCode;
+      context.log("Responding to EventGrid validation with code:", validationCode);
+      context.res = {
+        status: 200,
+        body: {
+          validationResponse: validationCode
+        }
+      };
+      return;
+    }
   }
+
   const connectionString = process.env.AZURE_STORAGE_CONNECTION_STRING;
   if (!connectionString) {
     context.res = {
