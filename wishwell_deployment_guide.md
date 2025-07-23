@@ -80,11 +80,6 @@ az storage table create \
   --account-name wishwellstorage \
   --name messages
 
-az storage table create \
-  --account-name wishwellstorage \
-  --name ratelimits
-```
-
 #### 🔹 4a. Get Storage Connection String
 
 ```bash
@@ -135,21 +130,6 @@ Once deployed, verify:
 - Environment variables are injected via **Azure Portal > wishwell-swa > Configuration**
 
 Let a test message confirm SMS and storage integration.
-
----
-
-## 🚦 Rate Limiting for SMS Protection
-
-To control cost and prevent abuse of your SMS-sending API, implement a rate limiter using Azure Table Storage.
-
-### Table: `ratelimits`
-
-| PartitionKey | RowKey (IP) | Timestamps JSON            |
-| ------------ | ----------- | -------------------------- |
-| `rate`       | `1.2.3.4`   | `[timestamp1, timestamp2]` |
-
-
-> 🔁 TODO: Add a periodic cleanup or TTL mechanism if usage grows.
 
 ---
 

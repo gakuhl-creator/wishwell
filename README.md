@@ -8,7 +8,6 @@ WishWell is a lightweight Azure-based application that enables people to send su
 ## 🚀 Features
 
 - ✨ Submit messages via website
-- 📩 Submit messages via SMS (inbound to ACS)
 - 💾 All messages persist in Azure Table Storage
 - 📤 SMS relays of submitted messages using Azure Communication Services (ACS)
 - 🔍 Public UI to browse messages
