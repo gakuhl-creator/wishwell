@@ -16,11 +16,11 @@ module.exports = async function (context, req) {
       message: `${name} says: ${message}`,
     });
 
-    context.log("SMS send result:", sendResults);
+    context.log("SMS send result:", JSON.stringify(sendResults[0]));
 
     context.res = {
       status: 200,
-      body: { success: true, sendResults },
+      body: { success: true, sendResults: sendResults[0] },
     };
   } catch (err) {
     context.log.error("Failed to send SMS:", err);

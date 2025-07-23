@@ -1,7 +1,11 @@
 
 # 📬 WishWell: Public Well-Wishing Platform
 
-WishWell is a lightweight Azure-based application that enables people to send supportive "get well soon" messages via web or SMS.
+WishWell is a lightweight Azure-based application that enables people to send supportive "get well soon" messages via web.
+
+Future Improvement/ Work In Progress: Relay messages from Azure to receiver's cell phone. Per Azure: 
+>Your trial number can only call up to three phone numbers, which have to be verified with two-factor authentication. SMS is unavailable for trial numbers.
+
 
 ---
 
@@ -9,7 +13,7 @@ WishWell is a lightweight Azure-based application that enables people to send su
 
 - ✨ Submit messages via website
 - 💾 All messages persist in Azure Table Storage
-- 📤 SMS relays of submitted messages using Azure Communication Services (ACS)
+- 📤 Future work: SMS relays of submitted messages using Azure Communication Services (ACS)
 - 🔍 Public UI to browse messages
 
 ---
@@ -79,18 +83,25 @@ wishwell/
 ├── api/
 |   └── saveWebMessage/
 │       └── index.js
+│       └── function.json
 |   └── getMessage/
 │       └── index.js
+│       └── function.json
 |   └── shared/
 │       └── relayMessage.js
+|   └── host.json
+|   └── local.settings.json
+|   └── package-lock.json
+|   └── package.json
+├── dist/
+├── node_modules/
 ├── public/
-│   └── config.json
+│   └── staticwebapp.config.json
 │   └── index.html
 │   └── styles.css
 │   └── wishwell-frontend.js
 ├── README.md                     # You are here
 ├── wishwell_deployment_guide.md  # Important instructions here
-├── staticwebapp.config.json
 ```
 
 ---
