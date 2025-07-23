@@ -20,7 +20,6 @@ WishWell is a lightweight Azure-based application that enables people to send su
 | Function Name       | Trigger                         | Purpose                                                  |
 |---------------------|----------------------------------|----------------------------------------------------------|
 | `saveWebMessage`    | POST `/api/saveWebMessage`      | Save web-submitted message → relay via SMS               |
-| `saveCellMessage`   | POST `/api/saveCellMessage`     | Save inbound SMS → relay via SMS                         |
 | `getMessage`        | GET `/api/getMessage`           | Retrieve stored messages for display                     |
 | `shared/relayMessage.js` | Internal module              | Handles sending SMS using Azure Communication Services   |
 
@@ -67,11 +66,6 @@ See wishwell_deployment_guide.md for more info.
    - [Azure Static Web App](https://portal.azure.com/#create/Microsoft.StaticApp)
    - [Azure Communication Services](https://portal.azure.com/#create/Microsoft.CommunicationServices)
    - [Azure Storage Account](https://portal.azure.com/#create/Microsoft.StorageAccount)
-4. [Configure SMS Webhook in ACS](https://learn.microsoft.com/en-us/azure/communication-services/quickstarts/sms/handle-sms-events)
-   - Webhook URL:  
-     ```
-     https://<your-site>.azurestaticapps.net/api/saveCellMessage
-     ```
 
 ---
 
@@ -85,8 +79,6 @@ wishwell/
 │       └── infra.yml
 ├── api/
 |   └── saveWebMessage/
-│       └── index.js
-|   └── saveCellMessage/
 │       └── index.js
 |   └── getMessage/
 │       └── index.js

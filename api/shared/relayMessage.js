@@ -1,32 +1,33 @@
 const { AzureCommunicationSmsClient } = require("@azure/communication-sms");
 
-async function relayMessage(name, message) {
-  const smsConnectionString = process.env.ACS_CONNECTION_STRING;
-  const senderPhoneNumber = process.env.ACS_PHONE_NUMBER;
-  const recipientPhoneNumber = process.env.RECIPIENT_PHONE_NUMBER;
+module.exports = async function (context, req) {
+  const connectionString = process.env.ACS_CONNECTION_STRING;
+  const fromPhoneNumber = process.env.ACS_PHONE_NUMBER;
+  const toPhoneNumber = process.env.RECIPIENT_PHONE_NUMBER;
 
-  if (!smsConnectionString) {
-    throw new Error("Missing ACS_CONNECTION_STRING in environment configuration");
+  const { name = "", message = "" } = req.body || {};
+
+  try {
+    const smsClient = new AzureCommunicationSmsClient(connectionString);
+
+    const sendResults = await smsClient.send({
+      from: fromPhoneNumber,
+      to: [toPhoneNumber],
+      message: `${name} says: ${message}`,
+    });
+
+    context.log("SMS send result:", sendResults);
+
+    context.res = {
+      status: 200,
+      body: { success: true, sendResults },
+    };
+  } catch (err) {
+    context.log.error("Failed to send SMS:", err);
+
+    context.res = {
+      status: 500,
+      body: { error: "SMS send failed", details: err.message },
+    };
   }
-
-  if (!recipientPhoneNumber || !senderPhoneNumber) {
-    throw new Error("Missing phone numbers in environment configuration");
-  }
-
-  const smsClient = new AzureCommunicationSmsClient(smsConnectionString);
-  const body = `💌 Wish from ${name}:\n${message}`;
-
-  console.log("relay message from: ", senderPhoneNumber);
-  console.log("relay message to: ", recipientPhoneNumber);
-  console.log("relay message body: ", body);
-
-  const result = await smsClient.send({
-    from: senderPhoneNumber,
-    to: [recipientPhoneNumber],
-    message: body,
-  });
-
-  console.log("SMS send result:", result);
-}
-
-module.exports = { relayMessage };
+};
