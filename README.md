@@ -115,8 +115,15 @@ npm install -g azure-functions-core-tools@4 --unsafe-perm true
 
 Run the API locally:
 ```bash
-cd wishwell_api
+cd api
 func start
+```
+Test /saveWebMessage (assuming 7071 port)
+
+```bash
+curl -X POST http://localhost:7071/api/saveWebMessage \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Alice", "message": "Get well soon!"}'
 ```
 
 ---
